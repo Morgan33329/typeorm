@@ -21,6 +21,7 @@ import {TreeMetadataArgs} from "./TreeMetadataArgs";
 import {UniqueMetadataArgs} from "./UniqueMetadataArgs";
 import {CheckMetadataArgs} from "./CheckMetadataArgs";
 import {ExclusionMetadataArgs} from "./ExclusionMetadataArgs";
+import {ConnectionNameMetadataArgs} from "./ConnectionNameMetadataArgs";
 
 /**
  * Storage all metadatas args of all available types: tables, columns, subscribers, relations, etc.
@@ -55,6 +56,7 @@ export class MetadataArgsStorage {
     readonly embeddeds: EmbeddedMetadataArgs[] = [];
     readonly inheritances: InheritanceMetadataArgs[] = [];
     readonly discriminatorValues: DiscriminatorValueMetadataArgs[] = [];
+    readonly connectionNames: ConnectionNameMetadataArgs[] = [];
 
     // -------------------------------------------------------------------------
     // Public Methods
@@ -201,6 +203,15 @@ export class MetadataArgsStorage {
 
     findDiscriminatorValue(target: Function|string): DiscriminatorValueMetadataArgs|undefined {
         return this.discriminatorValues.find(discriminatorValue => discriminatorValue.target === target);
+    }
+
+
+    findConnectionName(
+        target: Function | string
+    ): ConnectionNameMetadataArgs | undefined {
+        return this.connectionNames.find(
+            (connectionName) => connectionName.target === target
+        );
     }
 
     // -------------------------------------------------------------------------

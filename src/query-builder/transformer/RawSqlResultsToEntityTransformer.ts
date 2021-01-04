@@ -8,7 +8,7 @@ import {RelationMetadata} from "../../metadata/RelationMetadata";
 import {OrmUtils} from "../../util/OrmUtils";
 import {QueryExpressionMap} from "../QueryExpressionMap";
 import {EntityMetadata} from "../../metadata/EntityMetadata";
-import {QueryRunner} from "../..";
+import {getMetadataArgsStorage, QueryRunner} from "../..";
 import {DriverUtils} from "../../driver/DriverUtils";
 
 /**
@@ -103,6 +103,12 @@ export class RawSqlResultsToEntityTransformer {
                 metadata = discriminatorMetadata;
         }
         let entity: any = this.expressionMap.options.indexOf("create-pojo") !== -1 ? {} : metadata.create(this.queryRunner);
+
+        const addConnectionName = getMetadataArgsStorage().findConnectionName(entity);
+
+        if (!!addConnectionName) {
+            entity[addConnectionName.value] = metadata.connection.name;
+        }
 
         // get value from columns selections and put them into newly created entity
         const hasColumns = this.transformColumns(rawResults, alias, entity, metadata);
