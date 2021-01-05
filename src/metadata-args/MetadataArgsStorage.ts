@@ -210,7 +210,7 @@ export class MetadataArgsStorage {
         target: Function | string
     ): ConnectionNameMetadataArgs | undefined {
         return this.connectionNames.find(
-            (connectionName) => connectionName.target === target
+            (connectionName) => connectionName.target instanceof Function && !!target.constructor && connectionName.target.name === target.constructor.name
         );
     }
 

@@ -4,7 +4,7 @@ import { ConnectionNameMetadataArgs } from "../metadata-args/ConnectionNameMetad
 /**
  * Simple decorator for injecting connection name into the query results (only works for entities)
  */
-export function ConnectionName(): ClassDecorator {
+export function ConnectionName(): PropertyDecorator {
     return function (
         clsOrObject: Function | Object,
         propertyName?: string | symbol
